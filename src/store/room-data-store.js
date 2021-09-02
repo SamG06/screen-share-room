@@ -45,14 +45,22 @@ export const userDataPackage = () => {
   };
 };
 
-export const initialUserConnection = (conn, isHost, { username, u_avatar }) => {
-  console.log(`Username is ${username}`);
+export const newUserSetup = (conn, isHost, { username, u_avatar }) => {
+  console.log(`Setting up new user ${username} ${conn.peer}`);
   connectedUsers.value.push({ username, u_avatar, conn, isHost });
   console.log(connectedUsers.value);
 };
 
+export const userDisconnected = (id) => {
+  connectedUsers.value = connectedUsers.value.filter(
+    ({ conn }) => conn.peer != id
+  );
+  console.log(id, "user disconnected");
+};
+
 export const sendToAllPeers = (message) => {
   connectedUsers.value.forEach(({ conn }) => {
+    if (conn.peer === message.newUserID) return;
     console.log("Sent message to", conn);
     conn.send(message);
   });
