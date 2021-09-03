@@ -1,5 +1,5 @@
 <template>
-  <h1>Screen Share Room</h1>
+  <h1 v-if="!viewRoom">Screen Share Room</h1>
   <CriticalError />
   <UsernamePicker v-if="!wantsToEditAvatar && !viewRoom" />
   <AvatarPicker v-if="wantsToEditAvatar && !viewRoom" />

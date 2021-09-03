@@ -1,7 +1,5 @@
 <template>
-  <h1>The Join Room</h1>
-  <CopyRoomLink />
-  <UsersList />
+  <PageContent />
 </template>
 
 <script setup>
@@ -16,10 +14,8 @@ import {
   userDataPackage,
   userDisconnected,
 } from "../store/room-data-store";
-import typedUsername from "../store/typed-username";
-import dataUri from "../store/chosen-avatar";
-import CopyRoomLink from "../components/CopyRoomLink.vue";
-import UsersList from "../components/UsersList.vue";
+
+import PageContent from "../components/PageContent.vue";
 
 const route = useRoute();
 
@@ -72,6 +68,10 @@ hostConn.on("open", () => {
       appError.value = "Host Disconnected!!!";
     }
   };
+  hostConn.on("close", () => {
+    userDisconnected(hostConn.peer);
+    appError.value = "Host Disconnected!!!";
+  });
 });
 
 peer.on("connection", (conn) => {
@@ -92,6 +92,10 @@ peer.on("connection", (conn) => {
       userDisconnected(conn.peer);
     }
   };
+
+  conn.on("close", () => {
+    userDisconnected(conn.peer);
+  });
 });
 </script>
 

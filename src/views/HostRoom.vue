@@ -1,8 +1,5 @@
 <template>
-  <h1>The Room</h1>
-  <CopyRoomLink />
-  <UsersList />
-  <MessageArea />
+  <PageContent />
 </template>
 
 <script setup>
@@ -16,9 +13,8 @@ import {
   userDisconnected,
   userPeerID,
 } from "../store/room-data-store";
-import CopyRoomLink from "../components/CopyRoomLink.vue";
-import UsersList from "../components/UsersList.vue";
-import MessageArea from "../components/MessageArea/MessageArea.vue";
+
+import PageContent from "../components/PageContent.vue";
 
 // ALL INITIAL CONNECTION OPEN AND ERROR HANDLING IS DONE IN ROOM DATA STORE
 
@@ -36,13 +32,11 @@ peer.on("connection", (conn) => {
     sendInitialPackage(conn);
 
     conn.on("data", (data) => {
-      console.log(data);
       if (data.type === "initial-user-package") {
         newUserSetup(conn, false, data);
         sendToAllPeers({ type: "new user connected", newUserID: conn.peer });
       }
     });
-
     // If connection disconnects
   });
 

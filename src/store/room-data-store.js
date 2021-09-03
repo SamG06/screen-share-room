@@ -60,8 +60,13 @@ export const userDisconnected = (id) => {
 
 export const sendToAllPeers = (message) => {
   connectedUsers.value.forEach(({ conn }) => {
-    if (conn.peer === message.newUserID) return;
-    console.log("Sent message to", conn);
-    conn.send(message);
+    if (message.newUserID) {
+      if (conn.peer === message.newUserID) return;
+      console.log("Sent message to", conn);
+      conn.send(message);
+    } else {
+      console.log("sent message to", conn);
+      conn.send(message);
+    }
   });
 };
