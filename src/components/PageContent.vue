@@ -27,4 +27,9 @@ main {
   margin-left: auto;
   height: 100%;
 }
+
+.left-side {
+  width: 100%;
+  overflow-y: scroll;
+}
 </style>

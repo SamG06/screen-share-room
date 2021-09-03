@@ -29,4 +29,40 @@ function copy() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.copy-input-container {
+  background: rgb(24, 24, 24);
+  width: fit-content;
+  padding: 20px;
+  border-radius: 10px;
+  color: rgb(197, 197, 197);
+}
+
+input {
+  border: none;
+  padding: 5px;
+  border-radius: 10px;
+  margin-left: 5px;
+  pointer-events: none;
+  user-select: none;
+  background: rgb(82, 82, 82);
+  color: rgb(17, 17, 17);
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  background: #38afff;
+  color: #0b3812;
+  width: 120px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  font-weight: 500;
+  margin-left: 5px;
+  cursor: pointer;
+}
+</style>

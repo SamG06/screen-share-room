@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <button @click="getStream">Start Stream</button>
-  </div>
+  <button @click="getStream">Start Stream</button>
 </template>
 
 <script setup>
@@ -113,4 +111,17 @@ watch(
 );
 </script>
 
-<style scoped></style>
+<style scoped>
+button {
+  background: #7af88e;
+  color: #0b3812;
+  width: 200px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  font-weight: 500;
+  margin-left: auto;
+  cursor: pointer;
+}
+</style>

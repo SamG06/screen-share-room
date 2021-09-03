@@ -1,19 +1,24 @@
 <template>
-  <div v-if="showGifModule" class="tenor-search-area">
-    <input
-      placeholder="Search Tenor"
-      class="category-input"
-      type="text"
-      @keyup="searchGifs"
-    />
-    <div class="categories-container">
-      <div
-        v-for="category in categories"
-        :key="category.searchterm"
-        class="category-card"
-      >
-        <div class="category-title">{{ category.searchterm }}</div>
-        <img :src="category.image" :alt="category.searchterm" />
+  <div class="gif-center">
+    <button type="button" class="gif-button" @click="toggleGifModule">
+      Gif
+    </button>
+    <div v-if="showGifModule" class="tenor-search-area">
+      <input
+        placeholder="Search Tenor"
+        class="category-input"
+        type="text"
+        @keyup="searchGifs"
+      />
+      <div class="categories-container">
+        <div
+          v-for="category in categories"
+          :key="category.searchterm"
+          class="category-card"
+        >
+          <div class="category-title">{{ category.searchterm }}</div>
+          <img :src="category.image" :alt="category.searchterm" />
+        </div>
       </div>
     </div>
   </div>
@@ -27,6 +32,9 @@ const categories = ref([]);
 
 const api = "https://api.tenor.com/v1/";
 
+function toggleGifModule() {
+  showGifModule.value = !showGifModule.value;
+}
 async function getCategories() {
   const response = await fetch(
     `${api}categories?key=QRCRVY2HOQKE&contentfilter=high`
@@ -42,11 +50,28 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.gif-button {
+  background: rgb(146, 146, 146);
+  border: none;
+  border-radius: 3px;
+  color: rgb(22, 22, 22);
+  margin-bottom: 5px;
+  padding: 5px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+  font-size: 0.92em;
+  margin-top: 10px;
+}
+
 .tenor-search-area {
   position: absolute;
-  bottom: 100px;
+  bottom: 90px;
   background: rgb(26, 26, 26);
   padding: 10px;
+  z-index: 100;
   border-radius: 10px;
   right: 10px;
   width: 400px;

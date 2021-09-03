@@ -1,15 +1,24 @@
 <template>
   <div class="video-container">
-    <StreamButton @setStream="setVideoStream" :videoStream="videoStream" />
     <video ref="mainVideo" autoplay></video>
   </div>
+  <StreamButton
+    v-if="isHost"
+    @setStream="setVideoStream"
+    :videoStream="videoStream"
+  />
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { onMounted, watch } from "@vue/runtime-core";
+import { useRoute } from "vue-router";
 import { peer } from "../../store/room-data-store";
 import StreamButton from "./StreamButton.vue";
+
+const route = useRoute();
+
+const isHost = computed(() => route.name === "Host Room");
 
 const videoStream = ref(null);
 
@@ -39,4 +48,15 @@ watch(videoStream, () => {
 onMounted(() => {});
 </script>
 
-<style scoped></style>
+<style scoped>
+.video-container {
+  background: black;
+  width: 100%;
+  position: relative;
+}
+
+video {
+  width: 100%;
+  max-height: 600px;
+}
+</style>
