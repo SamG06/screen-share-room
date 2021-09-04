@@ -19,9 +19,9 @@ export const { viewRoom, connectedUsers, appError, userPeerID, hostPeerID } =
   toRefs(roomData);
 
 export const peer = new Peer("", {
-  host: "localhost",
-  port: 9000,
-  path: "/myapp",
+  host: "titanvoyager.com",
+  path: "/peerapp",
+  secure: true,
 });
 
 peer.on("open", (id) => {
