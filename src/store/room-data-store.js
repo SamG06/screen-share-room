@@ -22,6 +22,9 @@ export const peer = new Peer("", {
   host: "titanvoyager.com",
   path: "/peerapp",
   secure: true,
+  config: {
+    iceServers: stunServers,
+  },
 });
 
 peer.on("open", (id) => {
