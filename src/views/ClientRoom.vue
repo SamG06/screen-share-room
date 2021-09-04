@@ -25,6 +25,8 @@ hostPeerID.value = roomID.value;
 
 const hostConn = peer.connect(roomID.value);
 
+console.log(hostConn);
+
 const sendInitialPackage = (conn) => {
   console.log("sending initial package", userDataPackage(), conn);
   conn.send({ type: "initial-user-package", ...userDataPackage() });
