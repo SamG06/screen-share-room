@@ -4,7 +4,9 @@ import dataUri from "../store/chosen-avatar";
 
 import Peer from "peerjs";
 
-const stunServers = [{ urls: "stun:stun.l.google.com:19302" }];
+const stunServers = [
+  { url: "turn:104.236.68.242:3478", username: "test", credential: "test123" },
+];
 
 const roomData = reactive({
   viewRoom: false,
