@@ -43,9 +43,25 @@ watch(videoStream, () => {
   if (videoStream.value) {
     console.log("video stream is set");
     mainVideo.value.srcObject = videoStream.value;
+  } else {
+    const tracks = mainVideo.value.srcObject.getTracks();
+    tracks.forEach((track) => track.stop());
   }
 });
-onMounted(() => {});
+
+const cleanup = () => {
+  console.log("Data stopped being recieved");
+  videoStream.value = null;
+  console.log("Video stopped");
+};
+onMounted(() => {
+  const isFirefox = typeof InstallTrigger !== "undefined";
+  if (isFirefox) {
+    mainVideo.value.addEventListener("ended", cleanup);
+    return;
+  }
+  mainVideo.value.addEventListener("suspend", cleanup);
+});
 </script>
 
 <style scoped>

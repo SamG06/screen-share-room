@@ -1,5 +1,8 @@
 <template>
-  <button @click="getStream">Start Stream</button>
+  <button v-if="!videoStream" @click="getStream">Start Stream</button>
+  <button v-if="videoStream" class="stop" @click="stopStream">
+    Stop Stream
+  </button>
 </template>
 
 <script setup>
@@ -42,6 +45,7 @@ const streaming = ref(false);
 
 const currentQuality = ref(720);
 
+const calls = ref([]);
 async function getStream() {
   try {
     const stream = await navigator.mediaDevices.getDisplayMedia(
@@ -51,11 +55,20 @@ async function getStream() {
     connectedUsers.value.forEach(({ conn }) => {
       const call = peer.call(conn.peer, stream);
       console.log(call);
+      calls.value.push(call);
     });
   } catch (error) {
     console.log(`Can't get media. Please try again.`, error);
     return;
   }
+}
+
+function stopStream() {
+  emit("setStream", null);
+  calls.value.forEach((call) => {
+    call.close();
+  });
+  calls.value.length = 0;
 }
 
 watch(newPeerIndex, () => {
@@ -123,5 +136,10 @@ button {
   font-weight: 500;
   margin-left: auto;
   cursor: pointer;
+}
+
+.stop {
+  background: rgb(255, 75, 75);
+  color: rgb(80, 11, 11);
 }
 </style>

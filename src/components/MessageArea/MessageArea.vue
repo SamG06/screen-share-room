@@ -16,12 +16,13 @@
             <img :src="message.u_avatar" alt="message avatar" />
           </div>
           {{ message.text }}
+          <img :src="message.link" alt="gif image" />
         </div>
       </div>
     </div>
     <ViewNewMessages @bottom="scrollBottom" :show="showViewMessage" />
     <div class="message-action-center">
-      <TenorGif />
+      <TenorGif @send="sendGif" />
       <input
         v-model="currentMessage"
         type="text"
@@ -71,7 +72,7 @@ const timeString = () => {
 const messageListener = (conn) => {
   console.log("ran message listenrr!!!", conn);
   conn.on("data", (data) => {
-    console.log(data, "message data thing");
+    console.log(data.type, "message data thing");
     if (!data.connID) return;
 
     const { username, u_avatar } = connectedUsers.value.find(
@@ -97,6 +98,36 @@ const messageListener = (conn) => {
       if (atBottom) {
         messages.value.push(data);
         scrollBottom();
+        return;
+      }
+
+      messages.value.push(data);
+      console.log(messages.value);
+      showViewMessage.value = true;
+    }
+
+    if (data.type === "gif") {
+      console.log("gif message");
+      const atBottom =
+        messageArea.value.scrollHeight - messageArea.value.scrollTop ===
+        messageArea.value.clientHeight;
+
+      console.log(
+        atBottom,
+        "is at bottom",
+        messageArea.scrollHeight,
+        messageArea.scrollTop,
+        messageArea.clientHeight
+      );
+      if (atBottom) {
+        messages.value.push(data);
+        const img = new Image();
+
+        img.onload = () => {
+          scrollBottom();
+        };
+        img.src = data.link;
+
         return;
       }
 
@@ -145,6 +176,22 @@ watch(
   }
 );
 
+function sendGif(messagePackage) {
+  console.log(messagePackage);
+  messagePackage.username = typedUsername.value;
+  messagePackage.u_avatar = dataUri.value;
+  messagePackage.isSelf = true;
+  messagePackage.time = timeString();
+  sendToAllPeers(messagePackage);
+  messages.value.push(messagePackage);
+
+  const img = new Image();
+  img.onload = () => {
+    scrollBottom();
+    console.log("image time");
+  };
+  img.src = messagePackage.link;
+}
 function sendMessage() {
   const messagePackage = {
     connID: userPeerID.value,
