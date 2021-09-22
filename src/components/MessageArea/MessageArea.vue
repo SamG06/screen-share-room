@@ -16,7 +16,7 @@
             <img :src="message.u_avatar" alt="message avatar" />
           </div>
           {{ message.text }}
-          <img :src="message.link" alt="gif image" />
+          <img v-if="message.link" :src="message.link" alt="gif image" />
         </div>
       </div>
     </div>
