@@ -12,6 +12,7 @@
         :maxlength="maxChar"
         v-model="typedUsername"
         @keyup="updateUsername"
+        @keyup.enter="viewRoom = true"
       />
       <p class="chars-left">{{ charsLeft }}</p>
     </div>
@@ -24,6 +25,7 @@ import { computed, ref } from "@vue/reactivity";
 import typedUsername from "../store/typed-username";
 import ChosenAvatar from "./AvatarPicker/ChosenAvatar.vue";
 import NextSectionButton from "./NextSectionButton.vue";
+import { viewRoom } from "../store/room-data-store";
 
 const maxChar = ref(16);
 
