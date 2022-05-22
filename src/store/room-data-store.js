@@ -22,7 +22,7 @@ export const { viewRoom, connectedUsers, appError, userPeerID, hostPeerID } =
   toRefs(roomData);
 
 export const peer = new Peer("", {
-  host: "titanvoyager.com",
+  host: "api.samuelgraham.dev",
   path: "/peerapp",
   secure: true,
   config: {
